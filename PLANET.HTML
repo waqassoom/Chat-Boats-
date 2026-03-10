@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Full Galaxy AI Planet Bot</title>
+<style>
+body{margin:0;font-family:Arial;background:black;color:white;text-align:center;}
+h1{color:cyan;padding:15px;}
+#solar{position:relative;width:550px;height:550px;margin:auto;transform-style:preserve-3d;animation:rotate 50s linear infinite;}
+@keyframes rotate{from{transform:rotateX(20deg) rotateY(0deg);}to{transform:rotateX(20deg) rotateY(360deg);}}
+.sun{width:80px;height:80px;background:orange;border-radius:50%;position:absolute;top:235px;left:235px;box-shadow:0 0 50px orange;}
+.orbit{position:absolute;border:1px dashed #333;border-radius:50%;}
+.planet{width:14px;height:14px;border-radius:50%;position:absolute;top:-7px;left:50%;}
+#chat{width:90%;max-width:750px;height:320px;background:#111;margin:auto;overflow:auto;border-radius:10px;padding:10px;}
+.user{color:#00ffae;text-align:right;margin:6px;}
+.bot{text-align:left;margin:6px;}
+input{width:60%;padding:10px;border-radius:6px;border:none;}
+button{padding:10px;border:none;border-radius:6px;background:cyan;margin:5px;cursor:pointer;}
+button:hover{background:#00a2a2;}
+</style>
+</head>
+<body>
+<h1>🌌  Planet Bot</h1>
+<div>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <a href="./PLANET.HTML">PLANET</a>
+<a href="./SCIENCE.HTML">Birds</a>
+<a href="./GK.HTML">GK</a>
+<a href="./MATH.HTML">MATH</a>
+
+</div>
+
+<div id="solar">
+<div class="sun"></div>
+<div class="orbit" style="width:120px;height:120px;top:215px;left:215px"><div class="planet" style="background:gray"></div></div>
+<div class="orbit" style="width:160px;height:160px;top:195px;left:195px"><div class="planet" style="background:yellow"></div></div>
+<div class="orbit" style="width:200px;height:200px;top:175px;left:175px"><div class="planet" style="background:blue"></div></div>
+<div class="orbit" style="width:240px;height:240px;top:155px;left:155px"><div class="planet" style="background:red"></div></div>
+<div class="orbit" style="width:300px;height:300px;top:125px;left:125px"><div class="planet" style="background:orange"></div></div>
+<div class="orbit" style="width:360px;height:360px;top:95px;left:95px"><div class="planet" style="background:gold"></div></div>
+<div class="orbit" style="width:420px;height:420px;top:65px;left:65px"><div class="planet" style="background:lightblue"></div></div>
+<div class="orbit" style="width:480px;height:480px;top:35px;left:35px"><div class="planet" style="background:blue"></div></div>
+
+</div>
+
+<br>
+<div id="chat"></div>
+<br>
+<input id="msg" placeholder="Ask about planets or moons...">
+<button onclick="send()">Ask</button>
+
+<script>
+const planets={
+mercury:{moons:0,gravity:"3.7 m/s²",mass:"3.30×10^23 kg",orbit:"88 days",moonnames:[],info:"Mercury is the closest planet to the Sun."},
+venus:{moons:0,gravity:"8.87 m/s²",mass:"4.87×10^24 kg",orbit:"225 days",moonnames:[],info:"Venus is the hottest planet."},
+earth:{moons:1,gravity:"9.8 m/s²",mass:"5.97×10^24 kg",orbit:"365 days",moonnames:["Moon"],info:"Earth supports life."},
+mars:{moons:2,gravity:"3.71 m/s²",mass:"6.39×10^23 kg",orbit:"687 days",moonnames:["Phobos","Deimos"],info:"Mars is the Red Planet."},
+jupiter:{moons:95,gravity:"24.79 m/s²",mass:"1.89×10^27 kg",orbit:"12 years",moonnames:["Io","Europa","Ganymede","Callisto"],info:"Jupiter is the largest planet."},
+saturn:{moons:146,gravity:"10.44 m/s²",mass:"5.68×10^26 kg",orbit:"29 years",moonnames:["Titan","Enceladus","Rhea","Iapetus"],info:"Saturn has beautiful rings."},
+uranus:{moons:27,gravity:"8.69 m/s²",mass:"8.68×10^25 kg",orbit:"84 years",moonnames:["Titania","Oberon"],info:"Uranus rotates on its side."},
+neptune:{moons:14,gravity:"11.15 m/s²",mass:"1.02×10^26 kg",orbit:"165 years",moonnames:["Triton"],info:"Neptune has strong winds."}
+}
+
+// Extra 200 moons simulated (for demo)
+const extraMoons=[]
+for(let i=1;i<=200;i++){extraMoons.push("Moon"+i)}
+
+function add(text,type){
+let div=document.createElement("div")
+div.className=type
+div.innerHTML=text
+document.getElementById("chat").appendChild(div)
+document.getElementById("chat").scrollTop=999999
+}
+
+function send(){
+let input=document.getElementById("msg")
+let q=input.value.toLowerCase()
+if(q=="")return
+add(q,"user")
+let reply="I could not understand. Ask planet name, moons, gravity, mass, or orbit."
+for(let p in planets){
+if(q.includes(p)){
+let d=planets[p]
+reply="<b>"+p.toUpperCase()+"</b><br>Moons: "+d.moons+" ("+d.moonnames.join(", ")+")<br>Gravity: "+d.gravity+"<br>Mass: "+d.mass+"<br>Orbit: "+d.orbit+"<br>"+d.info
+}
+}
+if(q.includes("largest")) reply="Jupiter is the largest planet."
+if(q.includes("smallest")) reply="Mercury is the smallest planet."
+if(q.includes("how many planets")) reply="There are 8 planets in the Solar System."
+if(q.includes("list moons")){
+reply="Here is a list of 200 sample moons: "+extraMoons.join(", ")
+}
+add(reply,"bot")
+input.value=""
+}
+
+add("Hello! I am the Full Galaxy AI Planet Bot 🌌 Ask me about planets, moons, gravity, mass, or orbit!","bot")
+</script>
+</body>
+</html>
